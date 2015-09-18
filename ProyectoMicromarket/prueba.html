@@ -1,0 +1,447 @@
+	<?xml version='1.0' encoding='UTF-8' ?>
+	<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	    template="/plantilla/gral.xhtml"
+	    xmlns="http://www.w3.org/1999/xhtml"
+	    xmlns:p="http://primefaces.org/ui"
+	    xmlns:o="http://omnifaces.org/ui"
+	    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	    xmlns:f="http://xmlns.jcp.org/jsf/core"
+	    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	    xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+	<ui:define name="tittle">
+	<!-- Traduce esto --> Farmacologia <!-- Fin-->
+	<!-- dentro de esto --><span><!-- aqui -->  </span> <!-- fin -->
+	</ui:define>
+
+
+
+
+
+
+	<!-- Traduce  msg-tad -->
+	<ui:define name="tittle" msg-tag="hola este campo es requerido">
+	<!-- traduce esto --> Farmacologia <!-- fin-->
+	<!-- dentro de esto --><span><!-- aqui -->  </span> <!-- fin -->
+	</ui:define>
+	<!-- Fin-->
+
+	<!-- Traduce msg-tag -->
+	<ui:define name="tittle" msg-tag="hola este campo es requerido">
+	<!-- Traduce esto --> Farmacologia <!-- Fin-->
+	<!-- dentro de esto --><span><!-- aqui -->  </span> <!-- fin -->
+	</ui:define>
+
+	<ui:define name="init">
+	</ui:define>
+	<ui:define name="page_desc">       
+	</ui:define>
+	<ui:define name="breadcrumbs">
+	<li class="active">
+	Farmacologia
+	</li>
+	</ui:define>
+	<ui:define name="page_content">
+	<link href="#{request.contextPath}/resources/css/medico_buscador.css" rel="stylesheet" type="text/css"/>
+	<div class="cont-busFarma col-sm-12 col-md-12">
+
+	<div class="panel">
+
+    <div class="panel-body">
+        <style>
+            .ui-widget-content {
+                border: 0px;
+            }
+            .helper{
+
+            }
+            .ui-datalist-data{
+                padding: 0px;
+            }
+        </style>
+        <section id="flip-scroll">
+            <o:form includeRequestParams="true" includeViewParams="true" prependId="false" >
+                <script>
+                    $(document).ready(function () {
+                        setTimeout(function () {
+                            window.scrollTo(0, 0);
+                        }, 1);
+                    });
+                    function handleFarmacologia(xhr, status, args) {
+                        findFarmacologia();
+                    }
+                    function findFarmacologia() {
+                        window.location = '#{request.contextPath}/farmacia/farmacologia/busqueda.xhtml?q=' + encodeURIComponent(document.getElementById('searchFarmacologia_input').value) + '&amp;menu=#{param.menu}';
+                    }
+
+                </script>
+        <div class="input-group" style="  margin-top: -40px;">
+            #{catalogoManagedBean.initBusqueda()}
+           
+            <!-- Traduce  placeholder  -->
+            <p:autoComplete id="searchFarmacologia" 
+                            placeholder="Busqueda en la farmacologia"
+                            value="#{catalogoManagedBean.busqueda}"
+                            converter="busquedaConverter"
+                            var="r"
+                            itemLabel="#{r.resultado.trim()}"
+                            itemValue="#{r.resultado.trim()}"
+                            maxResults="10"
+                            completeMethod="#{catalogoManagedBean.onComplete}">
+                <p:column >
+                    <p:outputLabel value="#{utilManagedBean.capitalice(r.resultado.trim())}" />
+                </p:column>
+                <p:ajax event="keyup" process="@this"  />
+                <p:ajax event="itemSelect" process="@this"
+                        listener="#{catalogoManagedBean.onItemSelect}"
+                        oncomplete="handleFarmacologia(xhr, status, args);" />
+                <p:column >
+                    <p:outputLabel value="#{utilManagedBean.capitalice(r.origen.trim())}" />
+                </p:column>
+            </p:autoComplete>
+
+
+
+
+            <span class="input-group-btn">
+                <button class="b-gneral btn btn-default" onclick="findFarmacologia();"
+                        style="margin-top: -1px !important;  height: 29px;" type="button">
+                    <a href="#"><span class="glyphicon glyphicon-search"></span></a>
+                </button>
+            </span> 
+        </div>
+    <div class="panel-footer">
+        <button type="button" onclick="sustanciasClean();" data-toggle="modal" data-target="#sustanciasModal" class="btn btn-link pull-right"><li class="fa fa-eye"></li> Ver Todas Las Sustancia</button><br/>
+    </div>
+    
+    <p:dataList  value="#{farmacologiaManagedBean.lazyModel}" 
+                 var="p"  rowIndexVar="index"
+                 widgetVar="dataListWV"
+                 lazy="true"
+                 id="list" 
+                 paginator="true"
+                 paginatorPosition="bottom"
+                 paginatorAlwaysVisible="true"
+                 emptyMessage="La Busqueda No Arrojo Resultados."
+                 rows="10"  
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  
+                 currentPageReportTemplate="Mostrando {endRecord} registros de {totalRecords}">
+
+    <!-- traduce emptyMessage esto shanell -->
+    <p:dataList  value="#{farmacologiaManagedBean.lazyModel}" 
+                 var="p"  rowIndexVar="index"
+                 widgetVar="dataListWV"
+                 lazy="true"
+                 id="list" 
+                 paginator="true"
+                 paginatorPosition="bottom"
+                 paginatorAlwaysVisible="true"
+                 emptyMessage="La Busqueda No Arrojo Resultados."
+                 rows="10"  
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  
+                 currentPageReportTemplate="Mostrando {endRecord} registros de {totalRecords}">
+
+
+
+    <div class="cont-result-medicaentos" style="  margin: 0 0 0% 0;">
+
+
+        <div class="panel medicamentos-result">
+            <div class="panel-heading nombre-med">
+                Consulte con un profesional de la salud.
+                <h4>
+                    <a class="nombre-med-elc" >
+                        #{utilManagedBean.capitalice(p.extencion.nombre.trim())}
+                    </a>
+
+
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="cont-medicamento">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2">
+                            <a  >     
+
+                                <img style="width: 100px ; height:  100px ;" id="item-display" class="margen-imgs profile-image"
+                                     src="#{p.presentacionFotoList.size()>0?request.contextPath.concat('/imagePresentation.sn?pic=').concat(p.presentacionFotoList.get(0).foto):'http://placehold.it/350x260/'}" alt="Slide11"  />
+
+                            </a>
+                        </div>
+                        <div class="col-md-10 col-sm-10">
+                            <div class="col-md-4">
+                                <h5 class="media-heading tt-h4-encajar">
+                                    #{utilManagedBean.capitalice(p.nombre.trim())}
+                                </h5>
+                                <h5>
+                                    <div class="gtp" style="color: #219FD1 !important;">
+                                        <b>Laboratorio:</b> <a  style="color: #219FD1 !important;"
+                                                                href="#{request.contextPath}/farmacia/farmacologia/busqueda.xhtml?fabricante=#{p.extencion.producto.fabricante.codigo}&amp;menu=#{param.menu}" >
+                                            #{utilManagedBean.capitalice(p.extencion.producto.fabricante.nombre)}
+                                        </a>
+                                    </div>
+                                </h5>
+<!--                                                            <h5>
+                                    <div class="gtp" >
+                                        <b>Registro Sanitario:</b>#{(p.extencion.codigoSalud==null || p.extencion.codigoSalud=="")?"En Proceso":p.extencion.codigoSalud}
+                                    </div>
+                                </h5>-->
+                            </div>
+                            <div class="col-md-2">
+                                <div jsf:rendered="#{p.extencion.controlado}">
+                                    <div class="alert alert-danger">
+                                        <i class="fa fa-warning"></i>
+                                        <strong>Controlado!</strong>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4 col-sm-12 cont-group" >
+                                    <b>Grupo Terapeutico</b>
+                                    <ul>
+                                        <ui:repeat value="#{p.extencion.grupoExtencionList}" var="g">
+                                            <li> <a href="#{request.contextPath}/farmacia/farmacologia/busqueda.xhtml?grupo=#{g.grupo.codigo}&amp;menu=#{param.menu}">
+                                                    #{utilManagedBean.capitalice(g.grupo.nombre)}
+                                                </a>
+                                            </li>
+                                        </ui:repeat>
+                                    </ul>
+                                    <a  class="btn btn-info detalles-v trans elc-ver" onclick="return areChekeds('cheks#{p.codigo}');"
+                                            href="#{request.contextPath}/farmacia/farmacologia/busqueda.xhtml?pres=#{p.codigo}&amp;menu=#{param.menu}">       
+                                            <i class=" fa fa-th-list"></i>&nbsp;
+                                            Productos Similares
+                                        </a> 
+                                </div>
+                                <div class="col-md-8 col-sm-12 cont-sust-bsq">
+                                    
+                                    <ul>
+                                        <li><b>Sustancias</b></li>
+                                        <li>
+                                            <p:selectManyCheckbox  class="grid-tb" widgetVar="cheks#{p.codigo}" id="grid"  
+                                                                   value="#{farmacologiaManagedBean.sustancias}" converter="entityConverter" layout="grid" columns="1">
+                                                <f:selectItems value="#{p.extencion.extencionSustanciaList}" var="s" itemLabel="#{s.sustancia.nombre}" itemValue="#{s.sustancia}" />
+                                            </p:selectManyCheckbox>
+                                        </li>
+                                        <li><h:commandLink id='buscar' style="margin-top: -18px;" value="Buscar" onclick="buscarSustancia(1, 'cheks#{p.codigo}');
+                                            return false;"
+                                                   class="btn btn-info detalles-v trans elc-ver">
+                                        &nbsp;<i class=" fa fa-search"></i>
+                                            </h:commandLink>
+                                        </li>
+                                    </ul>
+                                    <br/>
+                                    
+                                    <div class="row">
+                                        <a class="btn btn-info detalles-v trans elc-ver" style="display: none;"
+                                           href="#{request.contextPath}/farmacia/farmacologia/presentacion.xhtml?presentacion=#{p.codigo}&amp;menu=#{param.menu}">       
+                                            <i class=" fa fa-th-list"></i>
+                                            Ver Detalles
+                                        </a>                                                                                                                     
+                                                                                          
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    
+                </div>
+            </div>    
+        </div>
+
+
+    </div>
+
+</p:dataList>
+
+	                <script>
+	                    $(document).ready(function () {
+	                        var odlHandlePagination = PF('dataListWV').handlePagination;
+
+	                        PF('dataListWV').handlePagination = function (newState) {
+	                            PF('block').show();
+	                            var $this = this;
+	                            options = {
+	                                source: this.id,
+	                                update: this.id,
+	                                process: this.id,
+	                                formId: this.cfg.formId,
+	                                params: [
+	                                    {name: this.id + '_pagination', value: true},
+	                                    {name: this.id + '_first', value: newState.first},
+	                                    {name: this.id + '_rows', value: newState.rows}
+	                                ],
+	                                onsuccess: function (responseXML, status, xhr) {
+	                                    PrimeFaces.ajax.Response.handle(responseXML, status, xhr, {
+	                                        widget: $this,
+	                                        handle: function (content) {
+	                                            this.content.html(content);
+	                                        }
+	                                    });
+	                                    return true;
+	                                },
+	                                oncomplete: function () {
+	                                    $this.paginator.cfg.page = newState.page;
+	                                    $this.paginator.updateUI();
+	                                    PF('block').hide();
+	                                    $('html, body').animate({scrollTop: 0}, 0);
+	                                }
+	                            };
+	                            //before
+	                            console.log('start fetch');
+	                            //calling original pagination 
+	                            PrimeFaces.ajax.AjaxRequest(options);
+	                            //after
+	                        };
+
+	                        $('html, body').animate({scrollTop: 0}, 0);
+	                    });
+	                    var criteria = {};
+	                    criteria.sustancias = [];
+	                    criteria.sustancias2 = [];
+	                    criteria.sustaciaTypo = 0;
+	                    criteria.buscado = false;
+
+	                    function updateFilter(check, value) {
+	                        var sustancia = value;
+
+	                        var i = criteria.sustancias2.indexOf(sustancia);
+	                        if (check)
+	                            criteria.sustancias2.push(sustancia);
+	                        else
+	                            criteria.sustancias2.splice(i, 1);
+	                        jQuery.unique(criteria.sustancias2);
+	                    }
+
+
+	                    function areChekeds(checks) {
+	                        if (PF(checks).jq.find('input').length === 0) {
+	                            PF('nosust').show();
+	                            return false;
+	                        }
+	                        return true;
+	                    }
+
+
+
+	                    function buscarSustancia(value, checks) {
+
+	                        if (value === 1) {
+	                            var marca = false;
+	                            criteria.sustancias = [];
+	                            try {
+	                                PF(checks).jq.find('input').each(function (i, e) {
+	                                    if (e.checked) {
+	                                        marca = true;
+	                                        criteria.sustancias.push((parseInt(String(e.value).split(':')[1])));
+	                                    }
+	//                                        ;
+	                                });
+	                            }
+	                            catch (err) {
+	                            }
+	                            if (marca === false) {
+	                                PF('nochecks').show();
+	                                return;
+	                            }
+	                        }
+	                        if (value === 2) {
+	                            criteria.sustancias = criteria.sustancias2;
+	                        }
+
+	                        criteria.sustaciaTypo = value;
+	                        criteria.buscado = true;
+	                        changeUrlParam('parametros', encodeURIComponent(JSON.stringify(criteria)));
+	                        removeParam('q');
+	                        removeParam('pres');
+	                        location.reload();
+	                    }
+
+
+	                </script>
+	            </o:form>
+
+
+	        </section>
+	    </div>
+	</div>
+	</div>
+	<div class="modal fade" id="sustanciasModal" tabindex="-1" role="dialog" aria-labelledby="sustanciasLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	        <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	            <h4 class="modal-title" id="sustanciasLabel">Sustancias</h4>
+	        </div>
+	        <div class="modal-body">
+	            <o:form includeRequestParams="true"  prependId="false" >
+	                <p:remoteCommand name="sustanciasClean" actionListener="#{farmaciaManagedBean.sustanciaFilter.clear()}" update="@form"/>
+	                <p:inputText
+	                    value="#{farmaciaManagedBean.sustanciaFilter.busqueda}"
+	                    size="56" >
+	                    <p:ajax event="keyup" process="@this" update="@([id$=listSustancias])" />
+	                </p:inputText>
+	                <hr/>
+	                <p:dataGrid id="listSustancias"  
+	                            value="#{farmaciaManagedBean.sustanciaFilter.lazyModel}"
+	                            var="s"  
+	                            rows="20"
+	                            paginatorAlwaysVisible="false"
+	                            paginatorPosition="bottom"
+	                            currentPageReportTemplate="Mostrando {endRecord} registros de {totalRecords}"                                    
+	                            lazy="true"
+	                            columns="2"
+	                            paginator="true" 
+	                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+	                    <p:selectBooleanCheckbox onchange="updateFilter(this.checked, #{s.codigo});"
+	                                             itemLabel="#{utilManagedBean.capitalice(s.nombre)}" >
+	                    </p:selectBooleanCheckbox>
+	                </p:dataGrid>
+	            </o:form>
+	        </div>
+	        <div class="modal-footer">
+	            <o:form includeRequestParams="true" includeViewParams="true">
+	                <h:commandLink   class="btn btn-info pull-left" onclick="buscarSustancia(2);
+	                        ;
+	                        return false;"  >
+	                    <f:passThroughAttribute name="data-dismiss" value="modal"/>
+	                    Buscar
+	                </h:commandLink>
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	            </o:form>
+	        </div>
+	    </div>
+	</div>
+	</div>
+	<p:dialog  resizable="false" 
+	       closable="true"
+	       closeOnEscape="true"
+	       draggable="false"
+	       showHeader="true"
+	       header="Debe Marcar Las Sustancias"
+	       widgetVar="nochecks" 
+	       modal="true" 
+	       appendTo="@(body)" >
+	<center>
+	    <h4>Debe elegir por lo menos una sustancia</h4>
+	</center>
+	</p:dialog>
+	<p:dialog  resizable="false" 
+	       closable="true"
+	       closeOnEscape="true"
+	       draggable="false"
+	       showHeader="true"
+	       header="Sustancias"
+	       widgetVar="nosust" 
+	       modal="true" 
+	       appendTo="@(body)" >
+	<center>
+	    <h4>Este Producto no tiene sustancias registradas</h4>
+	</center>
+	</p:dialog>
+	</ui:define>
+	</ui:composition>
